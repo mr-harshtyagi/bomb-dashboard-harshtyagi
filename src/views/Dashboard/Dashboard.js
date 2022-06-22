@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Page from '../../components/Page';
-import { ArrowUpwardSharp,ArrowDownwardSharp } from '@material-ui/icons';
+import { ArrowUpwardSharp,ArrowDownwardSharp,ShoppingCart } from '@material-ui/icons';
 import { createGlobalStyle } from 'styled-components';
 import CountUp from 'react-countup';
 import CardIcon from '../../components/CardIcon';
@@ -29,7 +29,9 @@ import useBombFinance from '../../hooks/useBombFinance';
 import { Helmet } from 'react-helmet';
 import BombImage from '../../assets/img/bomb.png';
 import BShareImage from '../../assets/img/bshare-512.png';
-
+import BombBTCBImage from '../../assets/img/bomb-bitcoin-LP.png';
+import BShareBNBImage from '../../assets/img/bshare-bnb-LP.png';
+import Bbond from '../../assets/img/bbond-512.png';
 
 import HomeImage from '../../assets/img/background.jpg';
 const BackgroundImage = createGlobalStyle`
@@ -148,19 +150,40 @@ const Home = () => {
       </Helmet>
       <BackgroundImage />
 
-      <Grid container spacing={3} style={{ padding: '20px 10% 20px 10%' }}>
+      <Grid container spacing={3} style={{ padding: '20px 10% 40px 10%' }}>
         {/* Bomb Finance Summary */}
         <Grid xs={12} style={{ marginBottom: '12px' }}>
-          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', height: '289px', borderRadius: '5px' }}>
-            <Box p={4} style={{ textAlign: 'center' }}>
-              <h1>Bomb Finance Summary</h1>
-              <p>
-                <strong>BOMB is pegged via algorithm to a 10,000:1 ratio to BTC. $100k BTC = $10 BOMB PEG</strong>
-              </p>
-              <p>
-                <h2>Best Algocoin | 0.5%+ DAILY | Audited | Doxxed team</h2>
-              </p>
-            </Box>
+          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', height: '350px', borderRadius: '5px' }}>
+            <div style={{ textAlign: 'center', paddingTop: '5px' }}>
+              <p>Bomb Finance Summary</p>
+              <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '80%' }} />
+            </div>
+            <Grid container spacing={3} style={{ textAlign: 'center' }}>
+              <Grid item xs={4} style={{}}>
+                Daily returns:
+                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
+              </Grid>
+              <Grid item xs={3} style={{ textAlign: 'center' }}>
+                Current Epoch
+                <h3 style={{ fontSize: '2rem', color: 'white' }}>258</h3>
+                <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '80%' }} />
+                <h3 style={{ fontSize: '2rem', color: 'white' }}>03:38:36</h3>
+                <p>Next Epoch in</p>
+                <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '70%' }} />
+                <p>
+                  Live TWAP : <span style={{ color: ' #00E8A2' }}>1.17</span>
+                </p>
+                <p>
+                  TVL : <span style={{ color: ' #00E8A2' }}>$ 5,200,129</span>
+                </p>
+                <p>
+                  Last Epoch TWAP : <span style={{ color: ' #00E8A2' }}>1.22</span>
+                </p>
+              </Grid>
+              <Grid item xs={5} style={{ textAlign: 'center' }}>
+                <p>≈ $1171.62</p>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
 
@@ -242,7 +265,7 @@ const Home = () => {
             <Grid container spacing={4} style={{ textAlign: 'center' }}>
               <Grid item xs={3} style={{ padding: '0' }}>
                 Daily returns:
-                <h2 style={{ color: 'white', marginTop: '10px' }}>2%</h2>
+                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
               </Grid>
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
@@ -296,31 +319,212 @@ const Home = () => {
         </Grid>
 
         {/* Bomb Farms */}
-        <Grid xs={12} style={{ marginBottom: '20px' }}>
-          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', height: '350px', borderRadius: '5px' }}>
-            <Box p={4} style={{ textAlign: 'center' }}>
-              <h1>Bomb Finance Summary</h1>
-              <p>
-                <strong>BOMB is pegged via algorithm to a 10,000:1 ratio to BTC. $100k BTC = $10 BOMB PEG</strong>
-              </p>
-              <p>
-                <h2>Best Algocoin | 0.5%+ DAILY | Audited | Doxxed team</h2>
-              </p>
+        <Grid xs={12} style={{ marginBottom: '40px' }}>
+          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', borderRadius: '5px' }}>
+            {/* BOMB-BTCB */}
+            <Box style={{ textAlign: 'left', padding: '10px 20px 0px 20px' }}>
+              <h3 style={{ color: 'white' }}>
+                Bomb Farms
+                <span style={{ float: 'right' }}>
+                  <Button
+                    style={{
+                      border: 'solid 2px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    Claim All
+                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                  </Button>
+                </span>
+              </h3>
+              <p>Stake your LP tokens in our farms to start earning $BSHARE</p>
             </Box>
+            <Box p={4} style={{ textAlign: 'left', paddingTop: '10px' }}>
+              <img
+                alt="b share image"
+                style={{ width: '60px', float: 'left', marginRight: '10px' }}
+                src={BombBTCBImage}
+              />
+              <h3 style={{ color: 'white', marginTop: '20px' }}>
+                BOMB-BTCB
+                <span
+                  style={{
+                    color: 'white',
+                    fontSize: '0.7rem',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    marginLeft: '20px',
+                    verticalAlign: 'center',
+                    backgroundColor: 'rgba(0, 232, 162, 0.5)',
+                  }}
+                >
+                  Recommended
+                </span>
+                <span style={{ float: 'right' }}>
+                  TVL : <strong>${'1,008,430'}</strong>
+                </span>
+              </h3>
+              <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
+            </Box>
+            <Grid container spacing={4} style={{ textAlign: 'center' }}>
+              <Grid item xs={2} style={{ padding: '0' }}>
+                Daily returns:
+                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
+              </Grid>
+              <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
+                Your Stake:
+                <p>
+                  <img alt="b share image" style={{ width: '20px' }} src={BShareImage} />
+                  6.0000
+                </p>
+                <p>≈ $1171.62</p>
+              </Grid>
+              <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
+                Earned:
+                <p>
+                  <img alt="b share image" style={{ width: '20px' }} src={BombImage} />
+                  1660.4413
+                </p>
+                <p>≈ $1171.62</p>
+              </Grid>
+              <Grid item xs={6} style={{ padding: '0' }}>
+                <Box style={{ textAlign: 'center', marginTop: '60px' }}>
+                  <Button style={{ width: '25%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                    Deposit <ArrowUpwardSharp />
+                  </Button>
+                  <Button style={{ width: '25%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                    Withdraw <ArrowDownwardSharp />
+                  </Button>
+                  <Button
+                    style={{
+                      width: '30%',
+                      border: 'solid 2px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    Claim Rewards
+                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+            {/* BSHARE-BNB */}
+            <Box p={4} style={{ textAlign: 'left' }}>
+              <img
+                alt="b share image"
+                style={{ width: '60px', float: 'left', marginRight: '10px' }}
+                src={BShareBNBImage}
+              />
+              <h3 style={{ color: 'white', marginTop: '20px' }}>
+                BSHARE-BNB
+                <span
+                  style={{
+                    color: 'white',
+                    fontSize: '0.7rem',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    marginLeft: '20px',
+                    verticalAlign: 'center',
+                    backgroundColor: 'rgba(0, 232, 162, 0.5)',
+                  }}
+                >
+                  Recommended
+                </span>
+                <span style={{ float: 'right' }}>
+                  TVL : <strong>${'1,008,430'}</strong>
+                </span>
+              </h3>
+
+              <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
+            </Box>
+            <Grid container spacing={4} style={{ textAlign: 'center' }}>
+              <Grid item xs={2} style={{ padding: '0' }}>
+                Daily returns:
+                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
+              </Grid>
+              <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
+                Your Stake:
+                <p>
+                  <img alt="b share image" style={{ width: '20px' }} src={BShareImage} />
+                  6.0000
+                </p>
+                <p>≈ $1171.62</p>
+              </Grid>
+              <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
+                Earned:
+                <p>
+                  <img alt="b share image" style={{ width: '20px' }} src={BombImage} />
+                  1660.4413
+                </p>
+                <p>≈ $1171.62</p>
+              </Grid>
+              <Grid item xs={6} style={{ padding: '0' }}>
+                <Box style={{ textAlign: 'center', marginTop: '60px', paddingBottom: '30px' }}>
+                  <Button style={{ width: '25%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                    Deposit <ArrowUpwardSharp />
+                  </Button>
+                  <Button style={{ width: '25%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                    Withdraw <ArrowDownwardSharp />
+                  </Button>
+                  <Button
+                    style={{
+                      width: '30%',
+                      border: 'solid 2px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    Claim Rewards
+                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
         {/* Bonds */}
         <Grid xs={12}>
-          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', height: '150px', borderRadius: '5px' }}>
-            <Box p={4} style={{ textAlign: 'center' }}>
-              <h1>Bomb Finance Summary</h1>
-              <p>
-                <strong>BOMB is pegged via algorithm to a 10,000:1 ratio to BTC. $100k BTC = $10 BOMB PEG</strong>
-              </p>
-              <p>
-                <h2>Best Algocoin | 0.5%+ DAILY | Audited | Doxxed team</h2>
-              </p>
+          <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', borderRadius: '5px' }}>
+            <Box p={4} style={{ textAlign: 'left' }}>
+              <img alt="b share image" style={{ width: '60px', float: 'left', marginRight: '10px' }} src={Bbond} />
+              <h3 style={{ color: 'white' }}>Bonds</h3>
+              <p>BBOND can be purchased only on contraction periods, when TWAP of BOMB is below 1</p>
             </Box>
+            <Grid container spacing={3} style={{ textAlign: 'center' }}>
+              <Grid item xs={3} style={{ padding: '0' }}>
+                Current Price :(Bomb)^2
+                <h3 style={{ color: 'white', marginTop: '10px' }}>BBond = 6.2872 BTCB</h3>
+              </Grid>
+              <Grid item xs={3} style={{ padding: '0', textAlign: 'center' }}>
+                Available to redeem:
+                <h3 style={{ color: 'white', fontSize: '2rem' }}>
+                  <img alt="b share image" style={{ width: '40px' }} src={Bbond} />
+                  456
+                </h3>
+              </Grid>
+              <Grid item xs={6} style={{ paddingRight: '20px' }}>
+                <Box style={{ padding: '10px', textAlign: 'left' }}>
+                  <p style={{ color: 'white' }}>
+                    Purchase BBond
+                    <span style={{ float: 'right' }}>
+                      <Button variant="" style={{ border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                        Purchase <ShoppingCart />
+                      </Button>
+                    </span>
+                  </p>
+                  <p style={{ fontSize: '0.9rem' }}>Bomb is over peg</p>
+                  <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
+
+                  <p style={{ color: 'white' }}>
+                    Redeem Bond
+                    <span style={{ float: 'right' }}>
+                      <Button variant="" style={{ border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                        Redeem <ArrowDownwardSharp />
+                      </Button>
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>
