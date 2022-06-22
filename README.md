@@ -1,0 +1,1 @@
+Visit '/dashboard' route to visit dashboard.
