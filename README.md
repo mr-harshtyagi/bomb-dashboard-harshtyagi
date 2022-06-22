@@ -1,1 +1,1 @@
-Visit '/dashboard' route to visit dashboard.
+Visit Dashboard Page here : https://bomb-dashboard-harshtyagi.netlify.app/dashboard
