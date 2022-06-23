@@ -32,6 +32,7 @@ import BShareImage from '../../assets/img/bshare-512.png';
 import BombBTCBImage from '../../assets/img/bomb-bitcoin-LP.png';
 import BShareBNBImage from '../../assets/img/bshare-bnb-LP.png';
 import Bbond from '../../assets/img/bbond-512.png';
+import RingImage from '../../assets/img/ring.svg';
 
 import HomeImage from '../../assets/img/background.jpg';
 const BackgroundImage = createGlobalStyle`
@@ -271,11 +272,58 @@ const Home = () => {
                 </p>
               </Grid>
               {/* Percentages */}
-              <Grid item xs={5} style={{ textAlign: 'center' }}>
-              
-
-
-
+              <Grid item xs={5} style={{ textAlign: 'left', paddingLeft: '40px' }}>
+                <Box p={2} style={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                  <img alt="ring" style={{ width: '150px',position:"absolute",marginRight:"80px" }} src={RingImage} />{' '}
+                  <div
+                    style={{
+                      height: '100px',
+                      width: '100px',
+                      backgroundColor: '#373747',
+                      borderRadius: '50%',
+                      marginRight: '80px',
+                      marginTop:"25px"
+                    }}
+                  >
+                    <h3 style={{ color: 'white', marginTop: '35px' }}>$ 10,451</h3>
+                    <h5 style={{ color: '#5DFDB0', margin: '2px' }}>+22 %</h5>
+                  </div>
+                </Box>
+                <Grid container spacing={3}>
+                  <Grid item xs={6}>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <img alt="bomb image" style={{ width: '15px' }} src={BombImage} /> Bomb: <strong>17%</strong>
+                    </p>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <img alt="bomb image" style={{ width: '15px' }} src={BShareImage} /> BShare: <strong>17%</strong>
+                    </p>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <img alt="bomb image" style={{ width: '15px' }} src={Bbond} /> BBond: <strong>17%</strong>
+                    </p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <img alt="bomb image" style={{ width: '15px' }} src={BombBTCBImage} /> Bomb-BTCB:{' '}
+                      <strong>17%</strong>
+                    </p>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <img alt="bomb image" style={{ width: '15px' }} src={BShareBNBImage} /> BShare-BNB:{' '}
+                      <strong>17%</strong>
+                    </p>
+                    <p style={{ fontSize: '0.9rem' }}>
+                      <div
+                        style={{
+                          width: '15px',
+                          height: '15px',
+                          borderRadius: '50%',
+                          backgroundColor: '#373747',
+                          display: 'inline-block',
+                        }}
+                      ></div>{' '}
+                      Others: <strong>17%</strong>
+                    </p>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Paper>
