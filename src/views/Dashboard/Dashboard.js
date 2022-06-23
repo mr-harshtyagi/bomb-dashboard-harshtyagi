@@ -19,7 +19,7 @@ import { roundAndFormatNumber } from '../../0x';
 import MetamaskFox from '../../assets/img/metamask-fox.svg';
 import DiscordIcon from '../../assets/img/discord.svg';
 import DocsIcon from '../../assets/img/github.svg';
-import { Box, Button, Card, CardContent, Grid, Paper } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, Paper, TableCell } from '@material-ui/core';
 import ZapModal from '../Bank/components/ZapModal';
 import { Alert } from '@material-ui/lab';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -141,16 +141,14 @@ const Home = () => {
   const spinner = () => {
     setVideoLoading(!videoLoading);
   };
-
-
+ 
   return (
     <>
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
       <BackgroundImage />
-
-      <Grid container spacing={3} style={{ padding: '20px 10% 40px 10%' }}>
+      <Grid container spacing={3} style={{ padding: '20px 8% 40px 8%' }}>
         {/* Bomb Finance Summary */}
         <Grid xs={12} style={{ marginBottom: '12px' }}>
           <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', height: '350px', borderRadius: '5px' }}>
@@ -159,11 +157,100 @@ const Home = () => {
               <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '80%' }} />
             </div>
             <Grid container spacing={3} style={{ textAlign: 'center' }}>
-              <Grid item xs={4} style={{}}>
-                Daily returns:
-                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
+              {/* Supply & Price Table */}
+              <Grid item xs={5} style={{ textAlign: 'center', paddingLeft: '10px' }}>
+                <p style={{ fontSize: '0.7rem' }}>
+                  <span style={{ marginLeft: '15px' }}>Current Supply</span>
+                  <span style={{ marginLeft: '20px' }}>Total Supply</span>
+                  <span style={{ marginLeft: '60px' }}>Price</span>
+                </p>
+                <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '100px' }} />
+                <Grid container style={{ textAlign: 'center' }}>
+                  <Grid item xs={3}>
+                    <img
+                      alt="b share image"
+                      style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
+                      src={BombImage}
+                    />
+                    $ BOMB
+                  </Grid>
+                  <Grid item xs={2}>
+                    8.66M
+                  </Grid>
+                  <Grid item xs={2}>
+                    60.9k
+                  </Grid>
+                  <Grid item xs={5}>
+                    <p style={{ padding: '0', margin: '0' }}>
+                      $ 0.24
+                      <img
+                        alt="b share image"
+                        style={{ width: '30px', float: 'right', paddingTop: '10px' }}
+                        src={MetamaskFox}
+                      />
+                    </p>
+                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                  </Grid>
+                </Grid>
+                <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '50px' }} />
+                <Grid container style={{ textAlign: 'center' }}>
+                  <Grid item xs={3}>
+                    <img
+                      alt="b share image"
+                      style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
+                      src={BShareImage}
+                    />
+                    $ BSHARE
+                  </Grid>
+                  <Grid item xs={2}>
+                    8.66M
+                  </Grid>
+                  <Grid item xs={2}>
+                    60.9k
+                  </Grid>
+                  <Grid item xs={5}>
+                    <p style={{ padding: '0', margin: '0' }}>
+                      $ 0.24
+                      <img
+                        alt="b share image"
+                        style={{ width: '30px', float: 'right', paddingTop: '10px' }}
+                        src={MetamaskFox}
+                      />
+                    </p>
+                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                  </Grid>
+                </Grid>
+                <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '50px' }} />
+                <Grid container style={{ textAlign: 'center' }}>
+                  <Grid item xs={3}>
+                    <img
+                      alt="b share image"
+                      style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
+                      src={Bbond}
+                    />
+                    $ BBOND
+                  </Grid>
+                  <Grid item xs={2}>
+                    8.66M
+                  </Grid>
+                  <Grid item xs={2}>
+                    60.9k
+                  </Grid>
+                  <Grid item xs={5}>
+                    <p style={{ padding: '0', margin: '0' }}>
+                      $ 0.24
+                      <img
+                        alt="b share image"
+                        style={{ width: '30px', float: 'right', paddingTop: '10px' }}
+                        src={MetamaskFox}
+                      />
+                    </p>
+                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs={3} style={{ textAlign: 'center' }}>
+              {/* Epoch */}
+              <Grid item xs={2} style={{ textAlign: 'center' }}>
                 Current Epoch
                 <h3 style={{ fontSize: '2rem', color: 'white' }}>258</h3>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '80%' }} />
@@ -171,17 +258,24 @@ const Home = () => {
                 <p>Next Epoch in</p>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '70%' }} />
                 <p>
-                  Live TWAP : <span style={{ color: ' #00E8A2' }}>1.17</span>
+                  <span style={{ fontSize: '0.9rem' }}>Live TWAP :</span>{' '}
+                  <span style={{ color: ' #00E8A2' }}>1.17</span>
                 </p>
                 <p>
-                  TVL : <span style={{ color: ' #00E8A2' }}>$ 5,200,129</span>
+                  <span style={{ fontSize: '0.9rem' }}>TVL :</span>{' '}
+                  <span style={{ color: ' #00E8A2' }}>$ 5,200,129</span>
                 </p>
                 <p>
-                  Last Epoch TWAP : <span style={{ color: ' #00E8A2' }}>1.22</span>
+                  <span style={{ fontSize: '0.9rem' }}>Last Epoch TWAP :</span>
+                  <span style={{ color: ' #00E8A2' }}>1.22</span>
                 </p>
               </Grid>
+              {/* Percentages */}
               <Grid item xs={5} style={{ textAlign: 'center' }}>
-                <p>≈ $1171.62</p>
+              
+
+
+
               </Grid>
             </Grid>
           </Paper>
