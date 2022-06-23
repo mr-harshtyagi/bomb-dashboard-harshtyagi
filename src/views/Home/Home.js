@@ -63,15 +63,6 @@ const Home = () => {
   const bShareStats = usebShareStats();
   const tBondStats = useBondStats();
   const bombFinance = useBombFinance();
-  // const bombmaxi = useBombMaxiStats('0xd6f52e8ab206e59a1e13b3d6c5b7f31e90ef46ef000200000000000000000028');
-
-  // console.log(bombmaxi);
-  // let bomb;
-  // if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  //   bomb = bombTesting;
-  // } else {
-  //   bomb = bombProd;
-  // }
 
   const buyBombAddress = //'https://app.1inch.io/#/56/swap/BTCB/BOMB';
     //  'https://pancakeswap.finance/swap?inputCurrency=0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c&outputCurrency=' +
@@ -153,24 +144,6 @@ const Home = () => {
   const spinner = () => {
     setVideoLoading(!videoLoading);
   };
-
-  // const [onPresentIntroVid] = useModal(
-  //   <grid>
-  //     <Paper>
-  //       <div>
-  //         <iframe
-  //           width="560"
-  //           height="315"
-  //           src="https://www.youtube.com/embed/nhCWmmRNNhc"
-  //           title="YouTube video player"
-  //           frameborder="0"
-  //           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  //           allowfullscreen
-  //         ></iframe>
-  //       </div>
-  //     </Paper>
-  //   </grid>,
-  // );
 
   return (
     <Page>

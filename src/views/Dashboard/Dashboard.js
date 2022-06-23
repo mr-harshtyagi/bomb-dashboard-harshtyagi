@@ -1,10 +1,17 @@
 import React, { useMemo, useState } from 'react';
-import Page from '../../components/Page';
+import { getDisplayBalance } from '../../utils/formatBalance';
 import { ArrowUpwardSharp,ArrowDownwardSharp,ShoppingCart } from '@material-ui/icons';
 import { createGlobalStyle } from 'styled-components';
 import CountUp from 'react-countup';
 import CardIcon from '../../components/CardIcon';
 import TokenSymbol from '../../components/TokenSymbol';
+import ProgressCountdown from '../Boardroom/components/ProgressCountdown';
+import moment from 'moment';
+import useCurrentEpoch from '../../hooks/useCurrentEpoch';
+import useTreasuryAllocationTimes from '../../hooks/useTreasuryAllocationTimes';
+import useCashPriceInEstimatedTWAP from '../../hooks/useCashPriceInEstimatedTWAP';
+import useTotalStakedOnBoardroom from '../../hooks/useTotalStakedOnBoardroom';
+import useFetchBoardroomAPR from '../../hooks/useFetchBoardroomAPR';
 import useBombStats from '../../hooks/useBombStats';
 import useLpStats from '../../hooks/useLpStats';
 import useLpStatsBTC from '../../hooks/useLpStatsBTC';
@@ -19,11 +26,11 @@ import { roundAndFormatNumber } from '../../0x';
 import MetamaskFox from '../../assets/img/metamask-fox.svg';
 import DiscordIcon from '../../assets/img/discord.svg';
 import DocsIcon from '../../assets/img/github.svg';
-import { Box, Button, Card, CardContent, Grid, Paper, TableCell } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, Paper, Typography } from '@material-ui/core';
 import ZapModal from '../Bank/components/ZapModal';
 import { Alert } from '@material-ui/lab';
 import { IoCloseOutline } from 'react-icons/io5';
-import { BiLoaderAlt } from 'react-icons/bi';
+import { BiBook } from 'react-icons/bi';
 import { makeStyles } from '@material-ui/core/styles';
 import useBombFinance from '../../hooks/useBombFinance';
 import { Helmet } from 'react-helmet';
@@ -54,7 +61,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const currentEpoch = useCurrentEpoch();
+  const { to } = useTreasuryAllocationTimes();
+  const cashStat = useCashPriceInEstimatedTWAP();
+  const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
   const TVL = useTotalValueLocked();
+  const totalStaked = useTotalStakedOnBoardroom();
+  const boardroomAPR = useFetchBoardroomAPR();
   const bombFtmLpStats = useLpStatsBTC('BOMB-BTCB-LP');
   const bShareFtmLpStats = useLpStats('BSHARE-BNB-LP');
   const bombStats = useBombStats();
@@ -160,37 +173,47 @@ const Home = () => {
             <Grid container spacing={3} style={{ textAlign: 'center' }}>
               {/* Supply & Price Table */}
               <Grid item xs={5} style={{ textAlign: 'center', paddingLeft: '10px' }}>
-                <p style={{ fontSize: '0.7rem' }}>
-                  <span style={{ marginLeft: '15px' }}>Current Supply</span>
-                  <span style={{ marginLeft: '20px' }}>Total Supply</span>
-                  <span style={{ marginLeft: '60px' }}>Price</span>
-                </p>
+                <Grid container style={{ textAlign: 'center', fontSize: '0.8rem' }}>
+                  <Grid item xs={3}></Grid>
+                  <Grid item xs={2}>
+                    <span>Current Supply</span>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <span>Total Supply</span>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <span>Price</span>
+                  </Grid>
+                </Grid>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '100px' }} />
                 <Grid container style={{ textAlign: 'center' }}>
                   <Grid item xs={3}>
                     <img
-                      alt="b share image"
+                      alt="bomb image"
                       style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
                       src={BombImage}
                     />
                     $ BOMB
                   </Grid>
                   <Grid item xs={2}>
-                    8.66M
+                    {roundAndFormatNumber(bombCirculatingSupply / 1000000, 2)} M
                   </Grid>
                   <Grid item xs={2}>
-                    60.9k
+                    {roundAndFormatNumber(bombTotalSupply / 1000, 2)}k
                   </Grid>
                   <Grid item xs={5}>
                     <p style={{ padding: '0', margin: '0' }}>
-                      $ 0.24
+                      ${bombPriceInDollars ? roundAndFormatNumber(bombPriceInDollars, 2) : '-.--'}
                       <img
-                        alt="b share image"
+                        onClick={() => {
+                          bombFinance.watchAssetInMetamask('BOMB');
+                        }}
+                        alt="metamask fox image"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
                     </p>
-                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                    <p style={{ padding: '0' }}>{bombPriceInBNB ? bombPriceInBNB : '-.----'} BTC</p>
                   </Grid>
                 </Grid>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '50px' }} />
@@ -204,21 +227,24 @@ const Home = () => {
                     $ BSHARE
                   </Grid>
                   <Grid item xs={2}>
-                    8.66M
+                    {roundAndFormatNumber(bShareCirculatingSupply / 1000, 2)}k
                   </Grid>
                   <Grid item xs={2}>
-                    60.9k
+                    {roundAndFormatNumber(bShareTotalSupply / 1000, 2)}k
                   </Grid>
                   <Grid item xs={5}>
                     <p style={{ padding: '0', margin: '0' }}>
-                      $ 0.24
+                      ${bSharePriceInDollars ? bSharePriceInDollars : '-.--'}
                       <img
+                        onClick={() => {
+                          bombFinance.watchAssetInMetamask('BSHARE');
+                        }}
                         alt="b share image"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
                     </p>
-                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                    <p style={{ padding: '0' }}>{bSharePriceInBNB ? bSharePriceInBNB : '-.----'} BTC</p>
                   </Grid>
                 </Grid>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', marginLeft: '50px' }} />
@@ -232,39 +258,47 @@ const Home = () => {
                     $ BBOND
                   </Grid>
                   <Grid item xs={2}>
-                    8.66M
+                    {roundAndFormatNumber(tBondCirculatingSupply / 1000, 2)}k
                   </Grid>
                   <Grid item xs={2}>
-                    60.9k
+                    {roundAndFormatNumber(tBondTotalSupply / 1000, 2)}k
                   </Grid>
                   <Grid item xs={5}>
                     <p style={{ padding: '0', margin: '0' }}>
-                      $ 0.24
+                      ${tBondPriceInDollars ? tBondPriceInDollars : '-.--'}
                       <img
-                        alt="b share image"
+                        onClick={() => {
+                          bombFinance.watchAssetInMetamask('BBOND');
+                        }}
+                        alt="metamask fox image"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
                     </p>
-                    <p style={{ padding: '0', marfin: '0' }}>1.05 BTCB</p>
+                    <p style={{ padding: '0', marfin: '0' }}>{tBondPriceInBNB ? tBondPriceInBNB : '-.----'} BTC</p>
                   </Grid>
                 </Grid>
               </Grid>
               {/* Epoch */}
               <Grid item xs={2} style={{ textAlign: 'center' }}>
-                Current Epoch
-                <h3 style={{ fontSize: '2rem', color: 'white' }}>258</h3>
+                <Typography style={{ textTransform: 'uppercase', color: '#f9d749' }}>Current Epoch</Typography>
+                <Typography>{Number(currentEpoch)}</Typography>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '80%' }} />
-                <h3 style={{ fontSize: '2rem', color: 'white' }}>03:38:36</h3>
-                <p>Next Epoch in</p>
+                <Typography style={{ textTransform: 'uppercase', color: '#f9d749' }}>Next Epoch</Typography>
+                <Typography>
+                  {' '}
+                  <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={to} description="Next Epoch" />
+                </Typography>
                 <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)', width: '70%' }} />
                 <p>
                   <span style={{ fontSize: '0.9rem' }}>Live TWAP :</span>{' '}
-                  <span style={{ color: ' #00E8A2' }}>1.17</span>
+                  <span style={{ color: ' #00E8A2' }}>{scalingFactor}</span>
                 </p>
                 <p>
                   <span style={{ fontSize: '0.9rem' }}>TVL :</span>{' '}
-                  <span style={{ color: ' #00E8A2' }}>$ 5,200,129</span>
+                  <span style={{ color: ' #00E8A2' }}>
+                    <CountUp style={{ fontSize: '1rem' }} end={TVL} separator="," prefix="$" />
+                  </span>
                 </p>
                 <p>
                   <span style={{ fontSize: '0.9rem' }}>Last Epoch TWAP :</span>
@@ -274,7 +308,11 @@ const Home = () => {
               {/* Percentages */}
               <Grid item xs={5} style={{ textAlign: 'left', paddingLeft: '40px' }}>
                 <Box p={2} style={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
-                  <img alt="ring" style={{ width: '150px',position:"absolute",marginRight:"80px" }} src={RingImage} />{' '}
+                  <img
+                    alt="ring"
+                    style={{ width: '150px', position: 'absolute', marginRight: '80px' }}
+                    src={RingImage}
+                  />{' '}
                   <div
                     style={{
                       height: '100px',
@@ -282,7 +320,7 @@ const Home = () => {
                       backgroundColor: '#373747',
                       borderRadius: '50%',
                       marginRight: '80px',
-                      marginTop:"25px"
+                      marginTop: '25px',
                     }}
                   >
                     <h3 style={{ color: 'white', marginTop: '35px' }}>$ 10,451</h3>
@@ -308,7 +346,7 @@ const Home = () => {
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
                       <img alt="bomb image" style={{ width: '15px' }} src={BShareBNBImage} /> BShare-BNB:{' '}
-                      <strong>17%</strong>
+                      <strong>15%</strong>
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
                       <div
@@ -339,6 +377,7 @@ const Home = () => {
               Read Investement Strategy
             </a>
             <Button
+              href={buyBShareAddress}
               style={{
                 color: 'white',
                 background:
@@ -350,6 +389,7 @@ const Home = () => {
               <strong>Invest Now</strong>
             </Button>
             <Button
+              href="https://discord.bomb.money"
               style={{
                 color: 'black',
                 background: 'rgba(255, 255, 255, 0.5)',
@@ -360,8 +400,11 @@ const Home = () => {
               <img alt="discord icon" style={{ width: '20px', marginRight: '5px' }} src={DiscordIcon} />
               <strong>Chat on Discord</strong>
             </Button>
-            <Button style={{ color: 'black', background: 'rgba(255, 255, 255, 0.5)', width: '45%' }}>
-              <img alt="docs icon" style={{ width: '20px', marginRight: '5px' }} src={DocsIcon} />
+            <Button
+              href="https://docs.bomb.money/welcome-start-here/readme"
+              style={{ color: 'black', background: 'rgba(255, 255, 255, 0.5)', width: '45%' }}
+            >
+              <BiBook style={{ fontSize: '1.5rem', marginRight: '5px' }} />
               <strong>Read Docs</strong>
             </Button>
           </Box>
@@ -372,7 +415,6 @@ const Home = () => {
                 style={{ width: '50px', float: 'left', marginRight: '10px' }}
                 src={BShareImage}
               />
-
               <h3 style={{ color: 'white' }}>
                 BoardRoom
                 <span
@@ -392,22 +434,24 @@ const Home = () => {
               <p>
                 Stake BSHARE and earn BOMB every epoch
                 <span style={{ float: 'right' }}>
-                  TVL: <strong>${'1,008,430'}</strong>
+                  TVL:{' '}
+                  <strong>$ {roundAndFormatNumber(getDisplayBalance(totalStaked) * bSharePriceInDollars, 2)}</strong>
                 </span>
               </p>
               <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
-              <p style={{ float: 'right' }}>
+              <p style={{ float: 'right'}}>
                 Total Staked:
-                <span>
                   <img alt="b share image" style={{ width: '13px', margin: '0 5px' }} src={BShareImage} />
-                  <strong>{'7232'}</strong>
-                </span>
+                  <strong>{roundAndFormatNumber(getDisplayBalance(totalStaked),2)}</strong>
+              
               </p>
             </Box>
             <Grid container spacing={4} style={{ textAlign: 'center' }}>
               <Grid item xs={3} style={{ padding: '0' }}>
                 Daily returns:
-                <h2 style={{ color: 'white', marginTop: '20px', fontSize: '2rem' }}>2%</h2>
+                <Typography style={{ fontSize: '2rem' }}>
+                  {boardroomAPR ? (boardroomAPR / 365).toFixed(2) : '-.-- '}%
+                </Typography>{' '}
               </Grid>
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
