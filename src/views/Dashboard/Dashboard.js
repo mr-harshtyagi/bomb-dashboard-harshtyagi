@@ -189,7 +189,7 @@ const Home = () => {
                 <Grid container style={{ textAlign: 'center' }}>
                   <Grid item xs={3}>
                     <img
-                      alt="bomb image"
+                      alt="bomb"
                       style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
                       src={BombImage}
                     />
@@ -208,7 +208,7 @@ const Home = () => {
                         onClick={() => {
                           bombFinance.watchAssetInMetamask('BOMB');
                         }}
-                        alt="metamask fox image"
+                        alt="metamask fox"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
@@ -220,7 +220,7 @@ const Home = () => {
                 <Grid container style={{ textAlign: 'center' }}>
                   <Grid item xs={3}>
                     <img
-                      alt="b share image"
+                      alt="b share"
                       style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
                       src={BShareImage}
                     />
@@ -239,7 +239,7 @@ const Home = () => {
                         onClick={() => {
                           bombFinance.watchAssetInMetamask('BSHARE');
                         }}
-                        alt="b share image"
+                        alt="b share"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
@@ -251,7 +251,7 @@ const Home = () => {
                 <Grid container style={{ textAlign: 'center' }}>
                   <Grid item xs={3}>
                     <img
-                      alt="b share image"
+                      alt="b bond"
                       style={{ width: '20px', float: 'left', marginRight: '3px', marginLeft: '10px' }}
                       src={Bbond}
                     />
@@ -270,7 +270,7 @@ const Home = () => {
                         onClick={() => {
                           bombFinance.watchAssetInMetamask('BBOND');
                         }}
-                        alt="metamask fox image"
+                        alt="metamask fox"
                         style={{ width: '30px', float: 'right', paddingTop: '10px' }}
                         src={MetamaskFox}
                       />
@@ -330,22 +330,22 @@ const Home = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <p style={{ fontSize: '0.9rem' }}>
-                      <img alt="bomb image" style={{ width: '15px' }} src={BombImage} /> Bomb: <strong>17%</strong>
+                      <img alt="bomb" style={{ width: '15px' }} src={BombImage} /> Bomb: <strong>17%</strong>
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
-                      <img alt="bomb image" style={{ width: '15px' }} src={BShareImage} /> BShare: <strong>17%</strong>
+                      <img alt="b share" style={{ width: '15px' }} src={BShareImage} /> BShare: <strong>17%</strong>
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
-                      <img alt="bomb image" style={{ width: '15px' }} src={Bbond} /> BBond: <strong>17%</strong>
+                      <img alt="b bond" style={{ width: '15px' }} src={Bbond} /> BBond: <strong>17%</strong>
                     </p>
                   </Grid>
                   <Grid item xs={6}>
                     <p style={{ fontSize: '0.9rem' }}>
-                      <img alt="bomb image" style={{ width: '15px' }} src={BombBTCBImage} /> Bomb-BTCB:{' '}
+                      <img alt="bomb btcb" style={{ width: '15px' }} src={BombBTCBImage} /> Bomb-BTCB:{' '}
                       <strong>17%</strong>
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
-                      <img alt="bomb image" style={{ width: '15px' }} src={BShareBNBImage} /> BShare-BNB:{' '}
+                      <img alt="bshare bnb" style={{ width: '15px' }} src={BShareBNBImage} /> BShare-BNB:{' '}
                       <strong>15%</strong>
                     </p>
                     <p style={{ fontSize: '0.9rem' }}>
@@ -411,7 +411,7 @@ const Home = () => {
           <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', borderRadius: '5px' }}>
             <Box p={4} style={{ textAlign: 'left' }}>
               <img
-                alt="b share image"
+                alt="b share"
                 style={{ width: '50px', float: 'left', marginRight: '10px' }}
                 src={BShareImage}
               />
@@ -441,7 +441,7 @@ const Home = () => {
               <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
               <p style={{ float: 'right'}}>
                 Total Staked:
-                  <img alt="b share image" style={{ width: '13px', margin: '0 5px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '13px', margin: '0 5px' }} src={BShareImage} />
                   <strong>{roundAndFormatNumber(getDisplayBalance(totalStaked),2)}</strong>
               
               </p>
@@ -456,7 +456,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
                   6.0000
                 </p>
                 <p>≈ $1171.62</p>
@@ -464,7 +464,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BombImage} />
+                  <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
                   1660.4413
                 </p>
                 <p>≈ $1171.62</p>
@@ -487,7 +487,7 @@ const Home = () => {
                     }}
                   >
                     Claim Rewards
-                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                    <img alt="b share" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
                   </Button>
                 </Box>
               </Grid>
@@ -519,7 +519,7 @@ const Home = () => {
                     }}
                   >
                     Claim All
-                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                    <img alt="b share" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
                   </Button>
                 </span>
               </h3>
@@ -527,7 +527,7 @@ const Home = () => {
             </Box>
             <Box p={4} style={{ textAlign: 'left', paddingTop: '10px' }}>
               <img
-                alt="b share image"
+                alt="bomb btc"
                 style={{ width: '60px', float: 'left', marginRight: '10px' }}
                 src={BombBTCBImage}
               />
@@ -560,7 +560,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
                   6.0000
                 </p>
                 <p>≈ $1171.62</p>
@@ -568,7 +568,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BombImage} />
+                  <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
                   1660.4413
                 </p>
                 <p>≈ $1171.62</p>
@@ -589,7 +589,7 @@ const Home = () => {
                     }}
                   >
                     Claim Rewards
-                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                    <img alt="b share" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
                   </Button>
                 </Box>
               </Grid>
@@ -597,7 +597,7 @@ const Home = () => {
             {/* BSHARE-BNB */}
             <Box p={4} style={{ textAlign: 'left' }}>
               <img
-                alt="b share image"
+                alt="b share bnb"
                 style={{ width: '60px', float: 'left', marginRight: '10px' }}
                 src={BShareBNBImage}
               />
@@ -631,7 +631,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
                   6.0000
                 </p>
                 <p>≈ $1171.62</p>
@@ -639,7 +639,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
-                  <img alt="b share image" style={{ width: '20px' }} src={BombImage} />
+                  <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
                   1660.4413
                 </p>
                 <p>≈ $1171.62</p>
@@ -660,7 +660,7 @@ const Home = () => {
                     }}
                   >
                     Claim Rewards
-                    <img alt="b share image" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
+                    <img alt="b share" style={{ width: '15px', marginLeft: '5px' }} src={BShareImage} />
                   </Button>
                 </Box>
               </Grid>
@@ -671,7 +671,7 @@ const Home = () => {
         <Grid xs={12}>
           <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', borderRadius: '5px' }}>
             <Box p={4} style={{ textAlign: 'left' }}>
-              <img alt="b share image" style={{ width: '60px', float: 'left', marginRight: '10px' }} src={Bbond} />
+              <img alt="b bond" style={{ width: '60px', float: 'left', marginRight: '10px' }} src={Bbond} />
               <h3 style={{ color: 'white' }}>Bonds</h3>
               <p>BBOND can be purchased only on contraction periods, when TWAP of BOMB is below 1</p>
             </Box>
@@ -683,7 +683,7 @@ const Home = () => {
               <Grid item xs={3} style={{ padding: '0', textAlign: 'center' }}>
                 Available to redeem:
                 <h3 style={{ color: 'white', fontSize: '2rem' }}>
-                  <img alt="b share image" style={{ width: '40px' }} src={Bbond} />
+                  <img alt="b bond" style={{ width: '40px' }} src={Bbond} />
                   456
                 </h3>
               </Grid>
