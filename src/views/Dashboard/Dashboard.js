@@ -8,10 +8,18 @@ import TokenSymbol from '../../components/TokenSymbol';
 import ProgressCountdown from '../Boardroom/components/ProgressCountdown';
 import moment from 'moment';
 import useCurrentEpoch from '../../hooks/useCurrentEpoch';
+import useBombFinance from '../../hooks/useBombFinance';
+import useStakedBalanceOnBoardroom from '../../hooks/useStakedBalanceOnBoardroom';
 import useTreasuryAllocationTimes from '../../hooks/useTreasuryAllocationTimes';
+import useEarningsOnBoardroom from '../../hooks/useEarningsOnBoardroom';
+import useClaimRewardCheck from '../../hooks/boardroom/useClaimRewardCheck';
+import useWithdrawCheck from '../../hooks/boardroom/useWithdrawCheck';
+import useRedeemOnBoardroom from '../../hooks/useRedeemOnBoardroom';
 import useCashPriceInEstimatedTWAP from '../../hooks/useCashPriceInEstimatedTWAP';
 import useTotalStakedOnBoardroom from '../../hooks/useTotalStakedOnBoardroom';
 import useFetchBoardroomAPR from '../../hooks/useFetchBoardroomAPR';
+import useHarvestFromBoardroom from '../../hooks/useHarvestFromBoardroom';
+
 import useBombStats from '../../hooks/useBombStats';
 import useLpStats from '../../hooks/useLpStats';
 import useLpStatsBTC from '../../hooks/useLpStatsBTC';
@@ -32,7 +40,6 @@ import { Alert } from '@material-ui/lab';
 import { IoCloseOutline } from 'react-icons/io5';
 import { BiBook } from 'react-icons/bi';
 import { makeStyles } from '@material-ui/core/styles';
-import useBombFinance from '../../hooks/useBombFinance';
 import { Helmet } from 'react-helmet';
 import BombImage from '../../assets/img/bomb.png';
 import BShareImage from '../../assets/img/bshare-512.png';
@@ -60,20 +67,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  const classes = useStyles();
+  const bombFinance = useBombFinance();
   const currentEpoch = useCurrentEpoch();
   const { to } = useTreasuryAllocationTimes();
   const cashStat = useCashPriceInEstimatedTWAP();
+  const { onReward } = useHarvestFromBoardroom();
+  const { onRedeem } = useRedeemOnBoardroom();
+  const canWithdraw = useWithdrawCheck();
+  const canClaimReward = useClaimRewardCheck();
   const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
   const TVL = useTotalValueLocked();
   const totalStaked = useTotalStakedOnBoardroom();
+  const stakedBalance = useStakedBalanceOnBoardroom();
+  const earnings = useEarningsOnBoardroom();
   const boardroomAPR = useFetchBoardroomAPR();
   const bombFtmLpStats = useLpStatsBTC('BOMB-BTCB-LP');
   const bShareFtmLpStats = useLpStats('BSHARE-BNB-LP');
   const bombStats = useBombStats();
   const bShareStats = usebShareStats();
   const tBondStats = useBondStats();
-  const bombFinance = useBombFinance();
 
   const buyBombAddress = //'https://app.1inch.io/#/56/swap/BTCB/BOMB';
     //  'https://pancakeswap.finance/swap?inputCurrency=0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c&outputCurrency=' +
@@ -410,11 +422,7 @@ const Home = () => {
           </Box>
           <Paper style={{ background: 'rgba(32, 37, 67, 0.5)', borderRadius: '5px' }}>
             <Box p={4} style={{ textAlign: 'left' }}>
-              <img
-                alt="b share"
-                style={{ width: '50px', float: 'left', marginRight: '10px' }}
-                src={BShareImage}
-              />
+              <img alt="b share" style={{ width: '50px', float: 'left', marginRight: '10px' }} src={BShareImage} />
               <h3 style={{ color: 'white' }}>
                 BoardRoom
                 <span
@@ -439,11 +447,10 @@ const Home = () => {
                 </span>
               </p>
               <hr style={{ border: '0.5px solid rgba(195, 197, 203, 0.75)' }} />
-              <p style={{ float: 'right'}}>
+              <p style={{ float: 'right' }}>
                 Total Staked:
-                  <img alt="b share" style={{ width: '13px', margin: '0 5px' }} src={BShareImage} />
-                  <strong>{roundAndFormatNumber(getDisplayBalance(totalStaked),2)}</strong>
-              
+                <img alt="b share" style={{ width: '13px', margin: '0 5px' }} src={BShareImage} />
+                <strong>{roundAndFormatNumber(getDisplayBalance(totalStaked), 2)}</strong>
               </p>
             </Box>
             <Grid container spacing={4} style={{ textAlign: 'center' }}>
@@ -457,27 +464,36 @@ const Home = () => {
                 Your Stake:
                 <p>
                   <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
-                  6.0000
+                  {getDisplayBalance(stakedBalance)}
                 </p>
-                <p>≈ $1171.62</p>
+                <p>≈ $ {getDisplayBalance(stakedBalance) * bSharePriceInDollars}</p>
               </Grid>
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
                   <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
-                  1660.4413
+                  {getDisplayBalance(earnings)}
                 </p>
-                <p>≈ $1171.62</p>
+                <p>≈ $ {getDisplayBalance(earnings) * bombPriceInDollars}</p>
               </Grid>
               <Grid item xs={5} style={{ padding: '0' }}>
                 <Box style={{ textAlign: 'center', padding: '10px' }}>
-                  <Button style={{ width: '45%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                  <Button
+                    href={buyBShareAddress}
+                    style={{ width: '45%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}
+                  >
                     Deposit <ArrowUpwardSharp />
                   </Button>
-                  <Button style={{ width: '45%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}>
+                  <Button
+                    disabled={stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)}
+                    onClick={onRedeem}
+                    style={{ width: '45%', border: 'solid 2px', borderRadius: '20px', marginRight: '10px' }}
+                  >
                     Withdraw <ArrowDownwardSharp />
                   </Button>
                   <Button
+                    onClick={onReward}
+                    disabled={earnings.eq(0) || !canClaimReward} // disable button if claim isn't possible
                     style={{
                       width: '90%',
                       border: 'solid 2px',
@@ -526,11 +542,7 @@ const Home = () => {
               <p>Stake your LP tokens in our farms to start earning $BSHARE</p>
             </Box>
             <Box p={4} style={{ textAlign: 'left', paddingTop: '10px' }}>
-              <img
-                alt="bomb btc"
-                style={{ width: '60px', float: 'left', marginRight: '10px' }}
-                src={BombBTCBImage}
-              />
+              <img alt="bomb btc" style={{ width: '60px', float: 'left', marginRight: '10px' }} src={BombBTCBImage} />
               <h3 style={{ color: 'white', marginTop: '20px' }}>
                 BOMB-BTCB
                 <span
@@ -560,7 +572,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
                 <p>
-                  <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '20px' }} src={BombBTCBImage} />
                   6.0000
                 </p>
                 <p>≈ $1171.62</p>
@@ -568,7 +580,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
-                  <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
+                  <img alt="bomb" style={{ width: '20px' }} src={BShareImage} />
                   1660.4413
                 </p>
                 <p>≈ $1171.62</p>
@@ -631,7 +643,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Your Stake:
                 <p>
-                  <img alt="b share" style={{ width: '20px' }} src={BShareImage} />
+                  <img alt="b share" style={{ width: '20px' }} src={BShareBNBImage} />
                   6.0000
                 </p>
                 <p>≈ $1171.62</p>
@@ -639,7 +651,7 @@ const Home = () => {
               <Grid item xs={2} style={{ padding: '0', textAlign: 'left' }}>
                 Earned:
                 <p>
-                  <img alt="bomb" style={{ width: '20px' }} src={BombImage} />
+                  <img alt="bomb" style={{ width: '20px' }} src={BShareImage} />
                   1660.4413
                 </p>
                 <p>≈ $1171.62</p>
